@@ -18,11 +18,11 @@ public static class Program {
 		while (true) {
 			var tcpClient = tcpListener.AcceptTcpClient();
 			// We CAN (but don't have to) Read from the Client
-			byte[] buffer = new byte[100];
-			tcpClient.GetStream().Read(buffer, 0, 100);
-			Console.WriteLine("Client said: "+Encoding.ASCII.GetString(buffer));
+			// byte[] buffer = new byte[100];
+			// tcpClient.GetStream().Read(buffer, 0, 100);
+			// Console.WriteLine("Client said: "+Encoding.ASCII.GetString(buffer));
 			// We CAN (but don't have to) Write To the Client
-			var responseBuffer = Encoding.ASCII.GetBytes(DateTime.Now.ToString());
+			var responseBuffer = Encoding.ASCII.GetBytes("Time: " + DateTime.Now);
 			tcpClient.GetStream().Write(responseBuffer, 0, responseBuffer.Length);
 			// You could do more stuff with this client. Or just close it already:
 			tcpClient.Close();
