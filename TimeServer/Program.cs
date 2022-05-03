@@ -3,13 +3,12 @@ using System.Net.Sockets;
 
 public static class Program {
 	static void Main() { 
-		var tcpListener = new TcpListener(IPAddress.Any, 1137);
+		var tcpListener = new TcpListener(IPAddress.Any, 1136);
 		tcpListener.Start();
 		
 		while (true) {
 			Console.WriteLine("Waiting for connection...");
 			var tcpClient = tcpListener.AcceptTcpClient();
-
 			new Thread(() => {
 					Console.WriteLine($"Client {tcpClient.Client.RemoteEndPoint} connected!");
 					
