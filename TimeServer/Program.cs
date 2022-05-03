@@ -1,31 +1,69 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 public static class Program {
-	static void Main(string[] arguments) {
-		var endpoint = new IPEndPoint(
-			// IP-Address: Used with IP-Protocol to find the right computer
-			IPAddress.Loopback, // 127.0.0.1 
-			// Port: Used with TCP / UDP Protocol to find the right program on a computer
-			1138
-		);
-		var tcpListener = new TcpListener(endpoint);
-		
+	static void Main() { 
+		var tcpListener = new TcpListener(IPAddress.Any, 1137);
 		tcpListener.Start();
 		
 		while (true) {
+			Console.WriteLine("Waiting for connection...");
 			var tcpClient = tcpListener.AcceptTcpClient();
-			// We CAN (but don't have to) Read from the Client
-			// byte[] buffer = new byte[100];
-			// tcpClient.GetStream().Read(buffer, 0, 100);
-			// Console.WriteLine("Client said: "+Encoding.ASCII.GetString(buffer));
-			// We CAN (but don't have to) Write To the Client
-			var responseBuffer = Encoding.ASCII.GetBytes("Time: " + DateTime.Now);
-			tcpClient.GetStream().Write(responseBuffer, 0, responseBuffer.Length);
-			// You could do more stuff with this client. Or just close it already:
-			tcpClient.Close();
+
+			new Thread(() => {
+					Console.WriteLine($"Client {tcpClient.Client.RemoteEndPoint} connected!");
+					
+					var stream = tcpClient.GetStream();
+					
+					var streamReader = new StreamReader(stream);
+					
+					var streamWriter = new StreamWriter(stream);
+					streamWriter.AutoFlush = true;
+					while (true) {
+						streamWriter.Write("Do you want the date and time? (Y/N/Meow)");
+						var input = streamReader.ReadLine();
+						if (input == "N") {
+							streamWriter.WriteLine("Bye!");
+							Console.WriteLine("Said Bye!");
+							break;
+						}
+						switch (input) {
+							case "Y":
+								streamWriter.WriteLine($"Time: {DateTime.Now}");
+								Console.WriteLine($"Sent: {DateTime.Now}");
+								break;
+							default:
+								streamWriter.WriteLine(GenerateCatFact());
+								Console.WriteLine("Cat fact sent!");
+								break;
+						}
+					}
+					tcpClient.Dispose();
+				}
+			).Start();
+		}
+		string GenerateCatFact() {
+			var random = new Random();
+			
+			switch (random.Next(0, 8)) {
+				case 0:
+					return "Cats conserve energy by sleeping for an average of 13 to 14 hours a day.";
+				case 1:
+					return "The heaviest domestic cat on record is 21.297 kilograms";
+				case 2:
+					return "Cats spend a large amount of time licking their coats to keep them clean.";
+				case 3:
+					return "Cats have flexible bodies and teeth adapted for hunting small animals such as mice and rats.";
+				case 4:
+					return "Cats also have excellent hearing and a powerful sense of smell.";
+				case 5:
+					return "On average cats live for around 12 to 15 years.";
+				case 6:
+					return "There are over 500 million domestic cats in the world.";
+				default:
+					return "A group of cats is called a clowder, a male cat is called a tom, a female cat is called a molly or queen while young cats are called kittens.";
+			}
+			
 		}
 	}
 }
