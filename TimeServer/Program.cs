@@ -18,8 +18,9 @@ public static class Program {
 					
 					var streamWriter = new StreamWriter(stream);
 					streamWriter.AutoFlush = true;
+					
 					while (true) {
-						streamWriter.Write("Do you want the date and time? (Y/N/Meow)");
+						streamWriter.Write($"The time now is: {DateTime.Now}. Do you want the date and time again? (Y/N/Meow)");
 						var input = streamReader.ReadLine();
 						if (input == "N") {
 							streamWriter.WriteLine("Bye!");
