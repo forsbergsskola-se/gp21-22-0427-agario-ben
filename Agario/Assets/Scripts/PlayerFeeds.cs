@@ -4,15 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFeeds : MonoBehaviour {
-
-	private Rigidbody2D self;
-	private void Start() {
-		self = GetComponent<Rigidbody2D>();
-	}
-	private void Update() {
-		
-	}
-
 	private void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.CompareTag("Food")) {
 			UpdateSize();
@@ -21,7 +12,10 @@ public class PlayerFeeds : MonoBehaviour {
 		}
 	}
 	private void UpdateSize() {
-		self.transform.localScale *= 1.01f;
-		GetComponentInChildren<Camera>().orthographicSize *= 1.005f;
+		if (transform.localScale.sqrMagnitude <= 200) {
+			transform.localScale *= 1.01f;
+			Debug.Log(transform.localScale.sqrMagnitude);
+			GetComponentInChildren<Camera>().orthographicSize *= 1.005f;			
+		}
 	}
 }

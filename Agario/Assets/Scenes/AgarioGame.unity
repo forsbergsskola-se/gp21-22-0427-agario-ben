@@ -708,8 +708,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76eb87f39bada08459a845adbcb2aded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalFood: 0
   maxFood: 500
-  spawnDelay: 0.01
+  spawnDelay: 0.05
   food: {fileID: 2594612206984004408, guid: d94d32470f4799f43bdaab3479da5c88, type: 3}
 --- !u!4 &1517929255
 Transform:
