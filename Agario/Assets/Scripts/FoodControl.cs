@@ -5,6 +5,6 @@ using UnityEngine;
 
 public class FoodControl : MonoBehaviour {
 	private void OnDestroy() {
-		GetComponentInParent<FoodSpawner>().totalFood--;
+		GetComponentInParent<FoodSpawner>().SpawnFood();
 	}
 }
