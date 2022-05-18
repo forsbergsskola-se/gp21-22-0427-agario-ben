@@ -9,7 +9,7 @@ public class FoodSpawner : MonoBehaviour {
     private float spawnTimer;
     private float totalFood;
     [SerializeField] private float maxFood;
-    [SerializeField] float spawnDelay;
+    [SerializeField] private float spawnDelay;
     [SerializeField] private GameObject food;
     void Update() {
         if (spawnTimer >= spawnDelay && totalFood <= maxFood) {
